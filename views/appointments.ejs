@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointments</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Appointments</h1>
+      <ul>
+        <% appointments.forEach(appointment => { %>
+        <li>
+          Patient: <%= appointment.patientId %> - Doctor: <%=
+          appointment.doctorId %> - Date: <%= appointment.date %> - Status: <%=
+          appointment.status %>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </body>
+</html>

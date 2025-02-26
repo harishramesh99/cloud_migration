@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Book Appointment</h1>
+      <form action="/appointments/book" method="POST">
+        <label for="patientId">Patient ID:</label>
+        <input type="text" id="patientId" name="patientId" required />
+        <label for="doctorId">Doctor ID:</label>
+        <input type="text" id="doctorId" name="doctorId" required />
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required />
+        <label for="timeSlot">Time Slot:</label>
+        <input type="text" id="timeSlot" name="timeSlot" required />
+        <button type="submit">Book</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <h1>Admin Dashboard</h1>
+    <h2>Patients</h2>
+    <ul>
+      <% patients.forEach(patient => { %>
+      <li><%= patient.name %> - <%= patient.age %> - <%= patient.contact %></li>
+      <% }) %>
+    </ul>
+    <h2>Doctors</h2>
+    <ul>
+      <% doctors.forEach(doctor => { %>
+      <li>
+        <%= doctor.name %> - <%= doctor.specialization %> - <%= doctor.contact
+        %>
+      </li>
+      <% }) %>
+    </ul>
+    <h2>Appointments</h2>
+    <ul>
+      <% appointments.forEach(appointment => { %>
+      <li>
+        Patient: <%= appointment.patientId %> - Doctor: <%= appointment.doctorId
+        %> - Date: <%= appointment.date %> - Status: <%= appointment.status %>
+      </li>
+      <% }) %>
+    </ul>
+  </body>
+</html>
