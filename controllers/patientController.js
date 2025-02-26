@@ -1,47 +1,62 @@
 import Patient from '../models/Patient.js';
-import Appointment from '../models/Appointment.js';
 
 const patientController = {
-  registerPatient: (req, res) => {
-    Patient.add(req.body)
-      .then((docRef) => res.status(201).json({ id: docRef.id }))
-      .catch((err) => res.status(400).json(err));
+  registerPatient: async (req, res) => {
+    try {
+      const docRef = await Patient.add(req.body);
+      res.status(201).json({ success: true, id: docRef.id });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
   },
-  getPatient: (req, res) => {
-    Patient.doc(req.params.id)
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          return res.status(404).json({ error: 'Patient not found' });
-        }
-        res.json(doc.data());
-      })
-      .catch((err) => res.status(400).json(err));
+
+  getPatient: async (req, res) => {
+    try {
+      const doc = await Patient.doc(req.params.id).get();
+      if (!doc.exists) {
+        return res
+          .status(404)
+          .json({ success: false, error: 'Patient not found' });
+      }
+      res.json({ success: true, data: doc.data() });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
   },
-  updatePatient: (req, res) => {
-    Patient.doc(req.params.id)
-      .update(req.body)
-      .then(() => res.json({ success: true }))
-      .catch((err) => res.status(400).json(err));
+
+  updatePatient: async (req, res) => {
+    try {
+      await Patient.update(req.params.id, req.body);
+      res.json({ success: true, message: 'Patient updated successfully' });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
   },
-  deletePatient: (req, res) => {
-    Patient.doc(req.params.id)
-      .delete()
-      .then(() => res.json({ success: true }))
-      .catch((err) => res.status(400).json(err));
+
+  deletePatient: async (req, res) => {
+    try {
+      await Patient.delete(req.params.id);
+      res.json({ success: true, message: 'Patient deleted successfully' });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
   },
-  listPatients: (req, res) => {
-    Patient.get()
-      .then((snapshot) => {
-        const patients = [];
-        snapshot.forEach((doc) => patients.push({ id: doc.id, ...doc.data() }));
-        res.render('patients', { patients });
-      })
-      .catch((err) => res.status(400).json(err));
+
+  listPatients: async (req, res) => {
+    try {
+      const snapshot = await Patient.get();
+      const patients = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      res.render('patients', { patients });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
   },
+
   renderRegisterPatient: (req, res) => {
-    // Logic to render the patient registration page
-    res.send('Render patient registration page');
+    res.render('registerPatient'); // Changed from `res.send()`
   },
 };
 

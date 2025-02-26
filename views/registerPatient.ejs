@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+    <%- include('partials/navbar') %>
     <div class="container">
       <h1>Register Patient</h1>
-      <form action="/patients/register" method="POST">
+      <form action="/api/patients/register" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required />
         <label for="age">Age:</label>

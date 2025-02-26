@@ -3,11 +3,10 @@ import patientController from '../controllers/patientController.js';
 
 const router = express.Router();
 
-router.post('/register', patientController.registerPatient);
-router.get('/:id', patientController.getPatient);
-router.put('/:id', patientController.updatePatient);
-router.delete('/:id', patientController.deletePatient);
+// Render patient list page
 router.get('/', patientController.listPatients);
+
+// Render patient registration page
 router.get('/register', patientController.renderRegisterPatient);
 
 export default router;
