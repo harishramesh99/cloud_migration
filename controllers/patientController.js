@@ -3,8 +3,8 @@ import Patient from '../models/Patient.js';
 const patientController = {
   registerPatient: async (req, res) => {
     try {
-      const docRef = await Patient.add(req.body);
-      res.status(201).json({ success: true, id: docRef.id });
+      await Patient.add(req.body);
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +27,7 @@ const patientController = {
   updatePatient: async (req, res) => {
     try {
       await Patient.update(req.params.id, req.body);
-      res.json({ success: true, message: 'Patient updated successfully' });
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +36,7 @@ const patientController = {
   deletePatient: async (req, res) => {
     try {
       await Patient.delete(req.params.id);
-      res.json({ success: true, message: 'Patient deleted successfully' });
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -56,7 +56,12 @@ const patientController = {
   },
 
   renderRegisterPatient: (req, res) => {
-    res.render('registerPatient'); // Changed from `res.send()`
+    res.render('registerPatient');
+  },
+
+  renderEditPatient: async (req, res) => {
+    const patient = await Patient.doc(req.params.id).get();
+    res.render('editPatient', { patient });
   },
 };
 

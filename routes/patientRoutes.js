@@ -6,8 +6,8 @@ const router = express.Router();
 // Patient API Endpoints (CRUD operations)
 router.get('/', patientController.listPatients);
 router.get('/:id', patientController.getPatient);
-router.put('/:id', patientController.updatePatient);
-router.delete('/:id', patientController.deletePatient);
+router.post('/edit/:id', patientController.updatePatient);
+router.post('/delete/:id', patientController.deletePatient);
 router.post('/register', patientController.registerPatient);
 
 export default router;

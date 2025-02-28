@@ -17,6 +17,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Contact</th>
+            <th>Medical History</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -30,15 +31,13 @@
             <td><%= patient.name %></td>
             <td><%= patient.age %></td>
             <td><%= patient.contact %></td>
+            <td><%= patient.medicalHistory %></td>
             <td>
-              <a href="/patients/<%= patient.id %>" class="btn btn-view"
-                >View</a
-              >
               <a href="/patients/edit/<%= patient.id %>" class="btn btn-edit"
                 >Edit</a
               >
               <form
-                action="/api/patients/<%= patient.id %>?_method=DELETE"
+                action="/api/patients/delete/<%= patient.id %>"
                 method="POST"
                 class="delete-form"
               >

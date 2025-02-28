@@ -1,56 +1,68 @@
 import Doctor from '../models/Doctor.js';
 
-const registerDoctor = (req, res) => {
-  Doctor.add(req.body)
-    .then((docRef) => res.status(201).json({ id: docRef.id }))
-    .catch((err) => res.status(400).json(err));
-};
+const doctorController = {
+  registerDoctor: async (req, res) => {
+    try {
+      await Doctor.add(req.body);
+      res.redirect('/doctors');
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  },
 
-const getDoctor = (req, res) => {
-  Doctor.doc(req.params.id)
-    .get()
-    .then((doc) => {
+  getDoctor: async (req, res) => {
+    try {
+      const doc = await Doctor.doc(req.params.id).get();
       if (!doc.exists) {
-        return res.status(404).json({ error: 'Doctor not found' });
+        return res
+          .status(404)
+          .json({ success: false, error: 'Doctor not found' });
       }
-      res.json(doc.data());
-    })
-    .catch((err) => res.status(400).json(err));
-};
+      res.json({ success: true, data: doc.data() });
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  },
 
-const updateDoctor = (req, res) => {
-  Doctor.doc(req.params.id)
-    .update(req.body)
-    .then(() => res.json({ success: true }))
-    .catch((err) => res.status(400).json(err));
-};
+  updateDoctor: async (req, res) => {
+    try {
+      await Doctor.update(req.params.id, req.body);
+      res.redirect('/doctors');
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  },
 
-const deleteDoctor = (req, res) => {
-  Doctor.doc(req.params.id)
-    .delete()
-    .then(() => res.json({ success: true }))
-    .catch((err) => res.status(400).json(err));
-};
+  deleteDoctor: async (req, res) => {
+    try {
+      await Doctor.delete(req.params.id);
+      res.redirect('/doctors');
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  },
 
-const listDoctors = (req, res) => {
-  Doctor.get()
-    .then((snapshot) => {
-      const doctors = [];
-      snapshot.forEach((doc) => doctors.push({ id: doc.id, ...doc.data() }));
+  listDoctors: async (req, res) => {
+    try {
+      const snapshot = await Doctor.get();
+      const doctors = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       res.render('doctors', { doctors });
-    })
-    .catch((err) => res.status(400).json(err));
+    } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+    }
+  },
+
+  renderRegisterDoctor: (req, res) => {
+    res.render('registerDoctor');
+  },
+
+  renderEditDoctor: async (req, res) => {
+    const doctor = await Doctor.doc(req.params.id).get();
+    res.render('editDoctor', { doctor });
+  },
 };
 
-const renderRegisterDoctor = (req, res) => {
-  res.render('registerDoctor');
-};
-
-export default {
-  registerDoctor,
-  getDoctor,
-  updateDoctor,
-  deleteDoctor,
-  listDoctors,
-  renderRegisterDoctor,
-};
+export default doctorController;
