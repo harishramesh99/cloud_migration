@@ -5,15 +5,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 // Import Views
-import patientViews from './views/patientViews.js';
-import doctorViews from './views/doctorViews.js';
-import appointmentViews from './views/appointmentViews.js';
-import adminViews from './views/adminViews.js';
+import patientViews from './views/routes/patientViews.js';
+import doctorViews from './views/routes/doctorViews.js';
+import appointmentViews from './views/routes/appointmentViews.js';
+import adminViews from './views/routes/adminViews.js';
+import prescriptionViews from './views/routes/prescriptionViews.js';
 
 // Import API Routes
 import patientRoutes from './routes/patientRoutes.js';
 import doctorRoutes from './routes/doctorRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
+import prescriptionRoutes from './routes/prescriptionRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,11 +33,13 @@ app.use('/patients', patientViews);
 app.use('/doctors', doctorViews);
 app.use('/appointments', appointmentViews);
 app.use('/admin', adminViews);
+app.use('/prescriptions', prescriptionViews);
 
 // API Routes (CRUD Operations)
 app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

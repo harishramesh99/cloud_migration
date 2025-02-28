@@ -3,41 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Patients</title>
+    <title>Appointments</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <%- include('partials/navbar') %>
+    <%- include('./../partials/navbar') %>
     <div class="container">
-      <h1>Patients</h1>
-      <!-- Patients Table -->
+      <h1>Appointments</h1>
+      <!-- Appointments Table -->
       <table class="patient-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Contact</th>
-            <th>Medical History</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <% if (patients.length === 0) { %>
+          <% if (appointments.length === 0) { %>
           <tr>
-            <td colspan="4" class="no-data">No patients found.</td>
+            <td colspan="4" class="no-data">No appointments found.</td>
           </tr>
-          <% } else { %> <% patients.forEach(patient => { %>
+          <% } else { %> <% appointments.forEach(appointment => { %>
           <tr>
-            <td><%= patient.name %></td>
-            <td><%= patient.age %></td>
-            <td><%= patient.contact %></td>
-            <td><%= patient.medicalHistory %></td>
+            <td><%= appointment.patient %></td>
+            <td><%= appointment.doctor %></td>
+            <td><%= appointment.date %></td>
             <td>
-              <a href="/patients/edit/<%= patient.id %>" class="btn btn-edit"
+              <a
+                href="/appointments/edit/<%= appointment.id %>"
+                class="btn btn-edit"
                 >Edit</a
               >
               <form
-                action="/api/patients/delete/<%= patient.id %>"
+                action="/api/appointments/delete/<%= appointment.id %>"
                 method="POST"
                 class="delete-form"
               >

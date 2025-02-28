@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patients</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <%- include('./../partials/navbar') %>
+    <div class="container">
+      <h1>Patients</h1>
+      <!-- Patients Table -->
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Contact</th>
+            <th>Medical History</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (patients.length === 0) { %>
+          <tr>
+            <td colspan="4" class="no-data">No patients found.</td>
+          </tr>
+          <% } else { %> <% patients.forEach(patient => { %>
+          <tr>
+            <td><%= patient.name %></td>
+            <td><%= patient.age %></td>
+            <td><%= patient.contact %></td>
+            <td><%= patient.medicalHistory %></td>
+            <td>
+              <a href="/patients/edit/<%= patient.id %>" class="btn btn-edit"
+                >Edit</a
+              >
+              <form
+                action="/api/patients/delete/<%= patient.id %>"
+                method="POST"
+                class="delete-form"
+              >
+                <button
+                  type="submit"
+                  class="btn btn-delete"
+                  onclick="return confirm('Are you sure?')"
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }) %> <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

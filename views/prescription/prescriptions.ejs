@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prescriptions</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <%- include('./../partials/navbar') %>
+    <div class="container">
+      <h1>Prescriptions</h1>
+      <!-- Prescriptions Table -->
+      <table class="patient-table">
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Doctor ID</th>
+            <th>Medication</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (prescriptions.length === 0) { %>
+          <tr>
+            <td colspan="5" class="no-data">No prescriptions found.</td>
+          </tr>
+          <% } else { %> <% prescriptions.forEach(prescription => { %>
+          <tr>
+            <td><%= prescription.patient_id %></td>
+            <td><%= prescription.doctor_id %></td>
+            <td><%= prescription.medication %></td>
+            <td><%= prescription.notes %></td>
+            <td>
+              <a
+                href="/prescriptions/edit/<%= prescription.id %>"
+                class="btn btn-edit"
+                >Edit</a
+              >
+              <form
+                action="/api/prescriptions/delete/<%= prescription.id %>"
+                method="POST"
+                class="delete-form"
+              >
+                <button
+                  type="submit"
+                  class="btn btn-delete"
+                  onclick="return confirm('Are you sure?')"
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% }) %> <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

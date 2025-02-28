@@ -22,7 +22,7 @@ const getDashboardStats = async (req, res) => {
       ).length,
     };
 
-    res.render('adminDashboard', { stats });
+    res.render('./admin/adminDashboard', { stats });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <%- include('partials/navbar') %>
+    <%- include('./../partials/navbar') %>
     <div class="container">
       <h1>Edit Patient</h1>
       <form action="/api/patients/edit/<%= patient.id %>" method="POST">

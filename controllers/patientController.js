@@ -4,7 +4,7 @@ const patientController = {
   registerPatient: async (req, res) => {
     try {
       await Patient.add(req.body);
-      res.redirect('/patients');
+      res.redirect('./patient/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +27,7 @@ const patientController = {
   updatePatient: async (req, res) => {
     try {
       await Patient.update(req.params.id, req.body);
-      res.redirect('/patients');
+      res.redirect('./patient//patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +36,7 @@ const patientController = {
   deletePatient: async (req, res) => {
     try {
       await Patient.delete(req.params.id);
-      res.redirect('/patients');
+      res.redirect('./patient//patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -49,19 +49,19 @@ const patientController = {
         id: doc.id,
         ...doc.data(),
       }));
-      res.render('patients', { patients });
+      res.render('./patient/patients', { patients });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
   },
 
   renderRegisterPatient: (req, res) => {
-    res.render('registerPatient');
+    res.render('patient/registerPatient');
   },
 
   renderEditPatient: async (req, res) => {
     const patient = await Patient.doc(req.params.id).get();
-    res.render('editPatient', { patient });
+    res.render('./patient/editPatient', { patient });
   },
 };
 

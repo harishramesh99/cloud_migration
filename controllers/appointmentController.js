@@ -4,7 +4,7 @@ const appointmentController = {
   registerAppointment: async (req, res) => {
     try {
       await Appointment.add(req.body);
-      res.redirect('/appointments');
+      res.redirect('./appointment/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +27,7 @@ const appointmentController = {
   updateAppointment: async (req, res) => {
     try {
       await Appointment.update(req.params.id, req.body);
-      res.redirect('/appointments');
+      res.redirect('./appointment/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +36,7 @@ const appointmentController = {
   deleteAppointment: async (req, res) => {
     try {
       await Appointment.delete(req.params.id);
-      res.redirect('/appointments');
+      res.redirect('./appointment/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -49,19 +49,19 @@ const appointmentController = {
         id: doc.id,
         ...doc.data(),
       }));
-      res.render('appointments', { appointments });
+      res.render('./appointment/appointments', { appointments });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
   },
 
   renderRegisterAppointment: (req, res) => {
-    res.render('registerAppointment');
+    res.render('./appointment/registerAppointment');
   },
 
   renderEditAppointment: async (req, res) => {
     const appointment = await Appointment.doc(req.params.id).get();
-    res.render('editAppointment', { appointment });
+    res.render('./appointment/editAppointment', { appointment });
   },
 };
 
