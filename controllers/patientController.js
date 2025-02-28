@@ -4,7 +4,7 @@ const patientController = {
   registerPatient: async (req, res) => {
     try {
       await Patient.add(req.body);
-      res.redirect('./patient/patients');
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +27,7 @@ const patientController = {
   updatePatient: async (req, res) => {
     try {
       await Patient.update(req.params.id, req.body);
-      res.redirect('./patient//patients');
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +36,7 @@ const patientController = {
   deletePatient: async (req, res) => {
     try {
       await Patient.delete(req.params.id);
-      res.redirect('./patient//patients');
+      res.redirect('/patients');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -56,7 +56,7 @@ const patientController = {
   },
 
   renderRegisterPatient: (req, res) => {
-    res.render('patient/registerPatient');
+    res.render('./patient/registerPatient');
   },
 
   renderEditPatient: async (req, res) => {

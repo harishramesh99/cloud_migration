@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', appointmentController.listAppointments);
 
 // Render doctor registration page
-router.get('/register', appointmentController.registerAppointment);
+router.get('/register', appointmentController.renderRegisterAppointment);
 
 // Render doctor list page
 router.get('/:id', appointmentController.getAppointment);

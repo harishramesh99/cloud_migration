@@ -4,7 +4,7 @@ const doctorController = {
   registerDoctor: async (req, res) => {
     try {
       await Doctor.add(req.body);
-      res.redirect('./doctor/doctors');
+      res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +27,7 @@ const doctorController = {
   updateDoctor: async (req, res) => {
     try {
       await Doctor.update(req.params.id, req.body);
-      res.redirect('./doctor/doctors');
+      res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +36,7 @@ const doctorController = {
   deleteDoctor: async (req, res) => {
     try {
       await Doctor.delete(req.params.id);
-      res.redirect('./doctor/doctors');
+      res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }

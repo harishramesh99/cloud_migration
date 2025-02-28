@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Appointment</title>
+    <title>Register Prescription</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <%- include('./../partials/navbar') %>
+    <%- include('../partials/navbar') %>
     <div class="container">
-      <h1>Book Appointment</h1>
-      <form action="/api/appointments/register" method="POST">
+      <h1>Register Prescription</h1>
+      <form action="/api/prescriptions/register" method="POST">
         <label for="patient_id">Patient:</label>
         <select id="patient_id" name="patient_id" required>
           <% patientList.forEach(patient => { %>
@@ -23,11 +23,11 @@
           <option value="<%= doctor.id %>"><%= doctor.name %></option>
           <% }) %>
         </select>
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required />
-        <label for="timeSlot">Time Slot:</label>
-        <input type="time" id="timeSlot" name="timeSlot" required />
-        <button type="submit">Book</button>
+        <label for="medication">Medication:</label>
+        <input type="text" id="medication" name="medication" required />
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes" required></textarea>
+        <button type="submit">Register</button>
       </form>
     </div>
   </body>

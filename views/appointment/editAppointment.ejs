@@ -10,40 +10,23 @@
     <%- include('./../partials/navbar') %>
     <div class="container">
       <h1>Edit Appointment</h1>
-      <form
-        action="/api/appointments/edit/<%= appointment.id %>?_method=PUT"
-        method="POST"
-      >
-        <div class="form-group">
-          <label for="patient">Patient</label>
-          <input
-            type="text"
-            id="patient"
-            name="patient"
-            value="<%= appointment.data().patient %>"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="doctor">Doctor</label>
-          <input
-            type="text"
-            id="doctor"
-            name="doctor"
-            value="<%= appointment.data().doctor %>"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input
-            type="datetime-local"
-            id="date"
-            name="date"
-            value="<%= appointment.data().date %>"
-            required
-          />
-        </div>
+      <form action="/api/appointments/edit/<%= appointment.id %>" method="POST">
+          <label for="patient_id">Patient</label>
+          <select id="patient_id" name="patient_id" required>
+            <% patientList.forEach(patient => { %>
+              <option value="<%= patient.id %>" <%= patient.id === appointment.patient_id ? 'selected' : '' %>><%= patient.name %></option>
+            <% }) %>
+          </select>
+          <label for="doctor_id">Doctor</label>
+          <select id="doctor_id" name="doctor_id" required>
+            <% doctorList.forEach(doctor => { %>
+              <option value="<%= doctor.id %>" <%= doctor.id === appointment.doctor_id ? 'selected' : '' %>><%= doctor.name %></option>
+            <% }) %>
+          </select>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" value="<%= appointment.date%>" required />
+            <label for="time">Time</label>
+            <input type="time" id="time" name="time" value="<%= appointment.timeSlot %>" required />
         <button type="submit" class="btn btn-save">Save</button>
       </form>
     </div>

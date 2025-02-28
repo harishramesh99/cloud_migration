@@ -10,10 +10,7 @@
     <%- include('./../partials/navbar') %>
     <div class="container">
       <h1>Edit Doctor</h1>
-      <form
-        action="/api/doctors/edit/<%= doctor.id %>?_method=PUT"
-        method="POST"
-      >
+      <form action="/api/doctors/edit/<%= doctor.id %>" method="POST">
         <div class="form-group">
           <label for="name">Name</label>
           <input
@@ -35,12 +32,12 @@
           />
         </div>
         <div class="form-group">
-          <label for="contact">Contact</label>
+          <label for="availability">Availability</label>
           <input
             type="text"
-            id="contact"
-            name="contact"
-            value="<%= doctor.data().contact %>"
+            id="availability"
+            name="availability"
+            value="<%= doctor.data().availability %>"
             required
           />
         </div>

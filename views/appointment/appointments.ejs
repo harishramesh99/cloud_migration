@@ -17,6 +17,7 @@
             <th>Patient</th>
             <th>Doctor</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -27,9 +28,10 @@
           </tr>
           <% } else { %> <% appointments.forEach(appointment => { %>
           <tr>
-            <td><%= appointment.patient %></td>
-            <td><%= appointment.doctor %></td>
+            <td><%= appointment.patient.name %></td>
+            <td><%= appointment.doctor.name %></td>
             <td><%= appointment.date %></td>
+            <td><%= appointment.timeSlot %></td>
             <td>
               <a
                 href="/appointments/edit/<%= appointment.id %>"

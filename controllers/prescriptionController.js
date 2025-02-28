@@ -1,10 +1,12 @@
 import Prescription from '../models/Prescription.js';
+import Patient from '../models/Patient.js';
+import Doctor from '../models/Doctor.js';
 
 const prescriptionController = {
   registerPrescription: async (req, res) => {
     try {
       await Prescription.add(req.body);
-      res.redirect('./prescription/prescriptions');
+      res.redirect('/prescriptions');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -27,7 +29,7 @@ const prescriptionController = {
   updatePrescription: async (req, res) => {
     try {
       await Prescription.update(req.params.id, req.body);
-      res.redirect('./prescription/prescriptions');
+      res.redirect('/prescriptions');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -36,7 +38,7 @@ const prescriptionController = {
   deletePrescription: async (req, res) => {
     try {
       await Prescription.delete(req.params.id);
-      res.redirect('./prescription/prescriptions');
+      res.redirect('/prescriptions');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
@@ -45,23 +47,65 @@ const prescriptionController = {
   listPrescriptions: async (req, res) => {
     try {
       const snapshot = await Prescription.get();
-      const prescriptions = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const prescriptions = await Promise.all(
+        snapshot.docs.map(async (doc) => {
+          const prescription = doc.data();
+          const doctorDoc = await Doctor.doc(prescription.doctor_id).get();
+          const patientDoc = await Patient.doc(prescription.patient_id).get();
+          return {
+            id: doc.id,
+            ...prescription,
+            doctor: doctorDoc.data(),
+            patient: patientDoc.data(),
+          };
+        })
+      );
       res.render('./prescription/prescriptions', { prescriptions });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }
   },
 
-  renderRegisterPrescription: (req, res) => {
-    res.render('./prescription/registerPrescription');
+  renderRegisterPrescription: async (req, res) => {
+    const patients = await Patient.get();
+    const doctors = await Doctor.get();
+
+    const patientList = patients.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const doctorList = doctors.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.render('./prescription/registerPrescription', {
+      patientList,
+      doctorList,
+    });
   },
 
   renderEditPrescription: async (req, res) => {
+    const patients = await Patient.get();
+    const doctors = await Doctor.get();
+
+    const patientList = patients.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const doctorList = doctors.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
     const prescription = await Prescription.doc(req.params.id).get();
-    res.render('./prescription/editPrescription', { prescription });
+    res.render('./prescription/editPrescription', {
+      prescription,
+      patientList,
+      doctorList,
+    });
   },
 };
 

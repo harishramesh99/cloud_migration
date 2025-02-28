@@ -10,14 +10,12 @@
     <%- include('./../partials/navbar') %>
     <div class="container">
       <h1>Register Doctor</h1>
-      <form action="/doctors/register" method="POST">
-        <label for="name">Name:</label>
+      <form action="/api/doctors/register" method="POST">
+        <label for="name">Name</label>
         <input type="text" id="name" name="name" required />
-        <label for="specialization">Specialization:</label>
+        <label for="specialization">Specialization</label>
         <input type="text" id="specialization" name="specialization" required />
-        <label for="contact">Contact:</label>
-        <input type="text" id="contact" name="contact" required />
-        <label for="availability">Availability:</label>
+        <label for="availability">Availability</label>
         <input type="text" id="availability" name="availability" required />
         <button type="submit">Register</button>
       </form>

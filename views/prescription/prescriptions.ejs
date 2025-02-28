@@ -28,8 +28,8 @@
           </tr>
           <% } else { %> <% prescriptions.forEach(prescription => { %>
           <tr>
-            <td><%= prescription.patient_id %></td>
-            <td><%= prescription.doctor_id %></td>
+            <td><%= prescription.patient.name %></td>
+            <td><%= prescription.doctor.name %></td>
             <td><%= prescription.medication %></td>
             <td><%= prescription.notes %></td>
             <td>

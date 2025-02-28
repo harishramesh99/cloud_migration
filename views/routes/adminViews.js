@@ -4,6 +4,6 @@ import adminController from '../../controllers/adminController.js';
 const router = express.Router();
 
 // Define your routes here
-router.get('/dashboard', adminController.getDashboardStats);
+router.get('/', adminController.getDashboardStats);
 
 export default router;
