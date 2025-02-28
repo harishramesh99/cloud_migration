@@ -11,6 +11,12 @@
       <li><a href="/appointments">Appointments</a></li>
       <li><a href="/prescriptions">Prescriptions</a></li>
       <li><a href="/dashboard">Admin</a></li>
+      <% if (user) { %>
+      <li><a href="#" onclick="signOut()">Logout</a></li>
+      <% } else { %>
+      <li><a href="#" onclick="signInWithGoogle()">Login</a></li>
+      <% } %>
     </ul>
   </div>
 </nav>
+<script type="module" src="/js/auth.js"></script>

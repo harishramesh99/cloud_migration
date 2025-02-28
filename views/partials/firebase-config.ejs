@@ -1,0 +1,50 @@
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js';
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+  } from 'https://www.gstatic.com/firebasejs/11.2.0/firebase-auth-compat.js';
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: '<%= firebaseClientKeys.apiKey %>',
+    authDomain: '<%= firebaseClientKeys.authDomain %>',
+    projectId: '<%= firebaseClientKeys.projectId %>',
+    storageBucket: '<%= firebaseClientKeys.storageBucket %>',
+    messagingSenderId: '<%= firebaseClientKeys.messagingSenderId %>',
+    appId: '<%= firebaseClientKeys.appId %>',
+  };
+
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
+  const firebaseAuth = getAuth(firebaseApp);
+
+  async function signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(firebaseAuth, provider);
+      const idToken = await result.user.getIdToken();
+
+      await fetch('/auth/sessionLogin', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'CSRF-Token': Cookies.get('XSRF-TOKEN'),
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      await signOut(firebaseAuth);
+      window.location.assign('/?message=loginSuccess');
+    } catch (error) {
+      console.error('Error during Google sign in:', error);
+      alert(error.message);
+    }
+  }
+
+  // Make signInWithGoogle available globally
+  window.signInWithGoogle = signInWithGoogle;
+</script>

@@ -1,9 +1,9 @@
 import { signInWithPopup, signOut } from 'firebase/auth';
-import { auth, provider } from '../config/db.js';
+import { auth } from '../config/db.js';
 
 const googleLogin = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth);
     // User is signed in
     console.log(result.user);
   } catch (error) {

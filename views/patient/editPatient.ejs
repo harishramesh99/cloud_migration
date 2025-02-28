@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <%- include('./../partials/navbar') %>
     <div class="container">
+      <% title = "Edit Patient" %>
       <h1>Edit Patient</h1>
       <form action="/api/patients/edit/<%= patient.id %>" method="POST">
         <div class="form-group">
