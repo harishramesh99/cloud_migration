@@ -36,8 +36,8 @@ app.use(expressLayouts);
 
 app.use(async (req, res, next) => {
   res.locals.firebaseClientKeys = firebaseConfig;
-  // Check if user is logged in
   res.locals.title = 'HP Plus';
+  // Check if user is logged in
   const response = await checkLoggedIn(req.cookies.session);
   if (response.status === true) {
     res.locals.user = {
