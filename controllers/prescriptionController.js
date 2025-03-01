@@ -49,18 +49,32 @@ const prescriptionController = {
       const snapshot = await Prescription.get();
       const prescriptions = await Promise.all(
         snapshot.docs.map(async (doc) => {
+          // console.log(res.locals.user); // Grab user from locals
           const prescription = doc.data();
           const doctorDoc = await Doctor.doc(prescription.doctor_id).get();
           const patientDoc = await Patient.doc(prescription.patient_id).get();
-          return {
-            id: doc.id,
-            ...prescription,
-            doctor: doctorDoc.data(),
-            patient: patientDoc.data(),
-          };
+
+          // Filter prescriptions based on user role
+          if (
+            res.locals.user.uid === prescription.doctor_id ||
+            res.locals.user.uid === prescription.patient_id
+          ) {
+            return {
+              id: doc.id,
+              ...prescription,
+              doctor: doctorDoc.data(),
+              patient: patientDoc.data(),
+            };
+          }
         })
       );
-      res.render('./prescription/prescriptions', { prescriptions });
+      // Filter out undefined values
+      const filteredPrescriptions = prescriptions.filter(
+        (p) => p !== undefined
+      );
+      res.render('./prescription/prescriptions', {
+        prescriptions: filteredPrescriptions,
+      });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }

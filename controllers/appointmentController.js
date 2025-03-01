@@ -50,17 +50,32 @@ const appointmentController = {
       const appointments = await Promise.all(
         snapshot.docs.map(async (doc) => {
           const appointment = doc.data();
+          if (!appointment.doctor_id || !appointment.patient_id) {
+            return undefined;
+          }
           const doctorDoc = await Doctor.doc(appointment.doctor_id).get();
           const patientDoc = await Patient.doc(appointment.patient_id).get();
-          return {
-            id: doc.id,
-            ...appointment,
-            doctor: doctorDoc.data(),
-            patient: patientDoc.data(),
-          };
+
+          // Filter appointments based on user role
+          if (
+            res.locals.user.uid === appointment.doctor_id ||
+            res.locals.user.uid === appointment.patient_id
+          ) {
+            return {
+              id: doc.id,
+              ...appointment,
+              doctor: doctorDoc.data(),
+              patient: patientDoc.data(),
+            };
+          }
         })
       );
-      res.render('./appointment/appointments', { appointments });
+      console.log(appointments);
+      // Filter out undefined values
+      const filteredAppointments = appointments.filter((a) => a !== undefined);
+      res.render('./appointment/appointments', {
+        appointments: filteredAppointments,
+      });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
     }

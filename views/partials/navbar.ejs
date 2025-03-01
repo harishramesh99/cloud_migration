@@ -2,11 +2,16 @@
   <div class="nav-container">
     <a href="#" class="logo">HP+</a>
     <ul class="nav-links">
+      <% if (locals.user?.role === 'admin') { %>
       <li><a href="/patients/register">Register Patient</a></li>
       <li><a href="/doctors/register">Register Doctor</a></li>
+      <% } %> <% if (locals.user?.role === 'doctor') { %>
       <li><a href="/prescriptions/register">Register Prescription</a></li>
       <li><a href="/appointments/register">Register Appointment</a></li>
+      <% } %> <% if (locals.user?.role === 'admin' || locals.user?.role ===
+      'doctor') { %>
       <li><a href="/patients">Patients</a></li>
+      <% } %>
       <li><a href="/doctors">Doctors</a></li>
       <li><a href="/appointments">Appointments</a></li>
       <li><a href="/prescriptions">Prescriptions</a></li>
