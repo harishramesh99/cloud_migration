@@ -70,7 +70,6 @@ const appointmentController = {
           }
         })
       );
-      console.log(appointments);
       // Filter out undefined values
       const filteredAppointments = appointments.filter((a) => a !== undefined);
       res.render('./appointment/appointments', {
