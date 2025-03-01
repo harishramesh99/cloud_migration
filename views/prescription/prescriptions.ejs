@@ -18,7 +18,7 @@
             <th>Doctor ID</th>
             <th>Medication</th>
             <th>Notes</th>
-            <% if (locals.user.role === 'doctor') { %>
+            <% if (locals.user?.role === 'doctor') { %>
             <th>Actions</th>
             <% } %>
           </tr>
@@ -34,7 +34,7 @@
             <td><%= prescription.doctor.name %></td>
             <td><%= prescription.medication %></td>
             <td><%= prescription.notes %></td>
-            <% if (locals.user.role === 'doctor') { %>
+            <% if (locals.user?.role === 'doctor') { %>
             <td>
               <a
                 href="/prescriptions/edit/<%= prescription.id %>"

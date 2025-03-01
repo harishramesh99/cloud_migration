@@ -18,7 +18,7 @@
             <th>Age</th>
             <th>Contact</th>
             <th>Medical History</th>
-            <% if (locals.user.role === 'admin' || locals.user.role ===
+            <% if (locals.user?.role === 'admin' || locals.user?.role ===
             'doctor') { %>
             <th>Actions</th>
             <% } %>
@@ -35,7 +35,7 @@
             <td><%= patient.age %></td>
             <td><%= patient.contact %></td>
             <td><%= patient.medicalHistory %></td>
-            <% if (locals.user.role === 'admin' || locals.user.role ===
+            <% if (locals.user?.role === 'admin' || locals.user?.role ===
             'doctor') { %>
             <td>
               <a href="/patients/edit/<%= patient.id %>" class="btn btn-edit"
