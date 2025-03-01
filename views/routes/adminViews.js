@@ -1,9 +1,10 @@
 import express from 'express';
 import adminController from '../../controllers/adminController.js';
+import { Auth } from '../../middleware/auth.js';
 
 const router = express.Router();
 
 // Define your routes here
-router.get('/', adminController.getDashboardStats);
+router.get('/', Auth.ensureAuthenticated, adminController.getDashboardStats);
 
 export default router;

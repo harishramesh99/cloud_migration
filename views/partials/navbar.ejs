@@ -10,9 +10,10 @@
       <li><a href="/doctors">Doctors</a></li>
       <li><a href="/appointments">Appointments</a></li>
       <li><a href="/prescriptions">Prescriptions</a></li>
+      <% if (locals.user?.role === 'admin') { %>
       <li><a href="/dashboard">Admin</a></li>
-      <% if (user) { %>
-      <li><a href="#" onclick="signOut()">Logout</a></li>
+      <% } %> <% if (locals.user) { %>
+      <li><a href="/auth/sessionLogout">Logout</a></li>
       <% } else { %>
       <li><a href="#" onclick="signInWithGoogle()">Login</a></li>
       <% } %>

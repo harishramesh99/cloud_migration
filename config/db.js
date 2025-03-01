@@ -1,6 +1,6 @@
 import admin from 'firebase-admin';
 import { initializeApp as initializeFirebaseApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import serviceAccount from './../serviceAccountKey.json' assert { type: 'json' };
 import dotenv from 'dotenv';
 
@@ -27,6 +27,5 @@ const firebaseConfig = {
 const firebaseApp = initializeFirebaseApp(firebaseConfig);
 
 const auth = getAuth(firebaseApp);
-const provider = new GoogleAuthProvider();
 
-export { db, firebaseApp, firebaseConfig, auth };
+export { db, firebaseApp, firebaseConfig, auth, admin };

@@ -4,9 +4,12 @@ dotenv.config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressLayouts from 'express-ejs-layouts';
-import { googleLogin, googleLogout } from './auth/authService.js';
-import { trackUserSession } from './auth/sessionTracker.js';
+import checkLoggedIn from './helpers/checkLoggedin.js';
 import { firebaseConfig } from './config/db.js';
+
+import cookieParser from 'cookie-parser';
+
+import authRouter from './routes/auth.js';
 
 // Import Views
 import patientViews from './views/routes/patientViews.js';
@@ -25,13 +28,24 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(expressLayouts);
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.firebaseClientKeys = firebaseConfig;
+  // Check if user is logged in
+  res.locals.title = 'HP Plus';
+  const response = await checkLoggedIn(req.cookies.session);
+  if (response.status === true) {
+    res.locals.user = {
+      email: response.email,
+      uid: response.uid,
+      role: response.role,
+    };
+  }
   next();
 });
 
@@ -52,36 +66,11 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/prescriptions', prescriptionRoutes);
 
-// Google Login Route
-app.get('/auth/google', async (req, res) => {
-  try {
-    await googleLogin();
-    res.redirect('/dashboard'); // Redirect to dashboard after login
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Login failed' });
-  }
+app.get('/', (req, res) => {
+  res.redirect('/doctors');
 });
 
-// Google Logout Route
-app.get('/auth/logout', async (req, res) => {
-  try {
-    await googleLogout();
-    res.redirect('/'); // Redirect to home page after logout
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Logout failed' });
-  }
-});
-
-// Track User Session
-trackUserSession((user) => {
-  if (user) {
-    console.log('User is logged in:', user);
-    // Update server state or session data as needed
-  } else {
-    console.log('User is logged out');
-    // Update server state or session data as needed
-  }
-});
+app.use('/auth', authRouter);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
