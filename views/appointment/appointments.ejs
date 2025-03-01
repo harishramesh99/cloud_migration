@@ -18,7 +18,10 @@
             <th>Doctor</th>
             <th>Date</th>
             <th>Time</th>
+            <% if (locals.user.role === 'admin' || locals.user.role ===
+            'doctor') { %>
             <th>Actions</th>
+            <% } %>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +35,8 @@
             <td><%= appointment.doctor.name %></td>
             <td><%= appointment.date %></td>
             <td><%= appointment.timeSlot %></td>
+            <% if (locals.user.role === 'admin' || locals.user.role ===
+            'doctor') { %>
             <td>
               <a
                 href="/appointments/edit/<%= appointment.id %>"
@@ -52,6 +57,7 @@
                 </button>
               </form>
             </td>
+            <% } %>
           </tr>
           <% }) %> <% } %>
         </tbody>

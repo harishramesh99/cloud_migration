@@ -17,7 +17,9 @@
             <th>Name</th>
             <th>Specialization</th>
             <th>Availability</th>
+            <% if (locals.user.role === 'admin') { %>
             <th>Actions</th>
+            <% } %>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +32,7 @@
             <td><%= doctor.name %></td>
             <td><%= doctor.specialization %></td>
             <td><%= doctor.availability %></td>
+            <% if (locals.user.role === 'admin') { %>
             <td>
               <a href="/doctors/edit/<%= doctor.id %>" class="btn btn-edit"
                 >Edit</a
@@ -48,6 +51,7 @@
                 </button>
               </form>
             </td>
+            <% } %>
           </tr>
           <% }) %> <% } %>
         </tbody>
