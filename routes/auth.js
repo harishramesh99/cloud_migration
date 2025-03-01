@@ -1,10 +1,13 @@
 import express from 'express';
 import { admin } from '../config/db.js';
+import User from '../models/user.js';
 
 const router = express.Router();
 
-router.post('/sessionLogin', (req, res) => {
+router.post('/sessionLogin', async (req, res) => {
   const idToken = req.body.idToken.toString();
+  const uid = req.body.uid.toString();
+  const user = await User.doc(uid).get();
 
   const expiresIn = 60 * 60 * 24 * 7 * 1000;
 
@@ -15,7 +18,7 @@ router.post('/sessionLogin', (req, res) => {
       (sessionCookie) => {
         const options = { maxAge: expiresIn, httpOnly: true };
         res.cookie('session', sessionCookie, options);
-        res.end(JSON.stringify({ status: 'success' }));
+        res.end(JSON.stringify({ status: 'success', user: user.data() }));
       },
       (error) => {
         res.status(401).send('UNAUTHORIZED REQUEST!');

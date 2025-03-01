@@ -27,7 +27,6 @@ const appointmentController = {
   },
 
   updateAppointment: async (req, res) => {
-    console.log('id' + req.params.id);
     try {
       await Appointment.update(req.params.id, req.body);
       res.redirect('/appointments');

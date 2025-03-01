@@ -49,6 +49,7 @@ const patientController = {
         id: doc.id,
         ...doc.data(),
       }));
+      // console.log(res.locals.user); // Grab user from locals
       res.render('./patient/patients', { patients });
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });

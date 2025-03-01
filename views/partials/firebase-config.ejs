@@ -27,18 +27,23 @@
     try {
       const result = await firebaseAuth.signInWithPopup(provider);
       const idToken = await result.user.getIdToken();
-
-      await fetch('/auth/sessionLogin', {
+      const response = await fetch('/auth/sessionLogin', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idToken }),
+        body: JSON.stringify({ idToken, uid: result.user.uid }),
+      });
+
+      const userRole = await response.json().then((data) => {
+        return data.user.role;
       });
 
       await firebaseAuth.signOut();
-      window.location.assign('/patients');
+      userRole === 'doctor' && window.location.assign('/doctors');
+      userRole === 'patient' && window.location.assign('/patients');
+      userRole === 'admin' && window.location.assign('/dashboard');
     } catch (error) {
       console.error('Error during Google sign in:', error);
       alert(error.message);
