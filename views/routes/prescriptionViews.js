@@ -4,23 +4,23 @@ import { Auth } from '../../middleware/auth.js';
 
 const router = express.Router();
 
-// Render all doctor list page
+// Render all prescription list page
 router.get('/', prescriptionController.listPrescriptions);
 
-// Render doctor registration page
+// Render prescription registration page
 router.get(
   '/register',
-  Auth.ensureAdmin,
+  Auth.ensureDoctor,
   prescriptionController.renderRegisterPrescription
 );
 
-// Render doctor list page
+// Render prescription list page
 router.get('/:id', prescriptionController.getPrescription);
 
-// Render doctor edit page
+// Render prescription edit page
 router.get(
   '/edit/:id',
-  Auth.ensureAdmin,
+  Auth.ensureDoctor,
   prescriptionController.renderEditPrescription
 );
 

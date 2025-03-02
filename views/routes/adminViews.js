@@ -5,6 +5,6 @@ import { Auth } from '../../middleware/auth.js';
 const router = express.Router();
 
 // Define your routes here
-router.get('/', Auth.ensureAuthenticated, adminController.getDashboardStats);
+router.get('/', Auth.ensureAdmin, adminController.getDashboardStats);
 
 export default router;
