@@ -1,12 +1,13 @@
 import express from 'express';
 import { admin } from '../config/db.js';
 import User from '../models/user.js';
+import xss from 'xss';
 
 const router = express.Router();
 
 router.post('/sessionLogin', async (req, res) => {
-  const idToken = req.body.idToken.toString();
-  const uid = req.body.uid.toString();
+  const idToken = xss(req.body.idToken.toString());
+  const uid = xss(req.body.uid.toString());
   const user = await User.doc(uid).get();
 
   const expiresIn = 60 * 60 * 24 * 7 * 1000;

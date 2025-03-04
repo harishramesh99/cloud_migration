@@ -1,11 +1,23 @@
 import Prescription from '../models/Prescription.js';
 import Patient from '../models/Patient.js';
 import Doctor from '../models/Doctor.js';
+import xss from 'xss';
+
+const sanitizeBody = (body) => {
+  const sanitizedBody = {};
+  for (const key in body) {
+    if (body.hasOwnProperty(key)) {
+      sanitizedBody[key] = xss(body[key]);
+    }
+  }
+  return sanitizedBody;
+};
 
 const prescriptionController = {
   registerPrescription: async (req, res) => {
     try {
-      await Prescription.add(req.body);
+      const sanitizedBody = sanitizeBody(req.body);
+      await Prescription.add(sanitizedBody);
       res.redirect('/prescriptions');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
@@ -14,7 +26,7 @@ const prescriptionController = {
 
   getPrescription: async (req, res) => {
     try {
-      const doc = await Prescription.doc(req.params.id).get();
+      const doc = await Prescription.doc(xss(req.params.id)).get();
       if (!doc.exists) {
         return res
           .status(404)
@@ -28,7 +40,8 @@ const prescriptionController = {
 
   updatePrescription: async (req, res) => {
     try {
-      await Prescription.update(req.params.id, req.body);
+      const sanitizedBody = sanitizeBody(req.body);
+      await Prescription.update(req.params.id, sanitizedBody);
       res.redirect('/prescriptions');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });

@@ -1,11 +1,23 @@
 import Appointment from '../models/Appointment.js';
 import Doctor from '../models/Doctor.js';
 import Patient from '../models/Patient.js';
+import xss from 'xss';
+
+const sanitizeBody = (body) => {
+  const sanitizedBody = {};
+  for (const key in body) {
+    if (body.hasOwnProperty(key)) {
+      sanitizedBody[key] = xss(body[key]);
+    }
+  }
+  return sanitizedBody;
+};
 
 const appointmentController = {
   registerAppointment: async (req, res) => {
+    const sanitizedBody = sanitizeBody(req.body);
     try {
-      await Appointment.add(req.body);
+      await Appointment.add(sanitizedBody);
       res.redirect('/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
@@ -14,7 +26,7 @@ const appointmentController = {
 
   getAppointment: async (req, res) => {
     try {
-      const doc = await Appointment.doc(req.params.id).get();
+      const doc = await Appointment.doc(xss(req.params.id)).get();
       if (!doc.exists) {
         return res
           .status(404)
@@ -27,8 +39,9 @@ const appointmentController = {
   },
 
   updateAppointment: async (req, res) => {
+    const sanitizedBody = sanitizeBody(req.body);
     try {
-      await Appointment.update(req.params.id, req.body);
+      await Appointment.update(xss(req.params.id), sanitizedBody);
       res.redirect('/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
@@ -37,7 +50,7 @@ const appointmentController = {
 
   deleteAppointment: async (req, res) => {
     try {
-      await Appointment.delete(req.params.id);
+      await Appointment.delete(xss(req.params.id));
       res.redirect('/appointments');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });

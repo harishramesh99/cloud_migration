@@ -1,9 +1,21 @@
 import Doctor from '../models/Doctor.js';
+import xss from 'xss';
+
+const sanitizeBody = (body) => {
+  const sanitizedBody = {};
+  for (const key in body) {
+    if (body.hasOwnProperty(key)) {
+      sanitizedBody[key] = xss(body[key]);
+    }
+  }
+  return sanitizedBody;
+};
 
 const doctorController = {
   registerDoctor: async (req, res) => {
+    const sanitizedBody = sanitizeBody(req.body);
     try {
-      await Doctor.add(req.body);
+      await Doctor.add(sanitizedBody);
       res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
@@ -12,7 +24,7 @@ const doctorController = {
 
   getDoctor: async (req, res) => {
     try {
-      const doc = await Doctor.doc(req.params.id).get();
+      const doc = await Doctor.doc(xss(req.params.id)).get();
       if (!doc.exists) {
         return res
           .status(404)
@@ -25,8 +37,9 @@ const doctorController = {
   },
 
   updateDoctor: async (req, res) => {
+    const sanitizedBody = sanitizeBody(req.body);
     try {
-      await Doctor.update(req.params.id, req.body);
+      await Doctor.update(xss(req.params.id), sanitizedBody);
       res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
@@ -35,7 +48,7 @@ const doctorController = {
 
   deleteDoctor: async (req, res) => {
     try {
-      await Doctor.delete(req.params.id);
+      await Doctor.delete(xss(req.params.id));
       res.redirect('/doctors');
     } catch (err) {
       res.status(400).json({ success: false, error: err.message });
