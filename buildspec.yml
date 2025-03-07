@@ -9,16 +9,24 @@ phases:
       - npm install
   build:
     commands:
-      - echo Build started on `date`
-      - npm run build  # If you have a build script, otherwise remove this line
+      - echo No build step required for this application...
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo Deployment package preparation completed on `date`
 
 artifacts:
   files:
     - package.json
     - package-lock.json
     - .env
-    - '**/*'
+    - config/**/*
+    - controllers/**/*
+    - helpers/**/*
+    - models/**/*
+    - public/**/*
+    - routes/**/*
+    - views/**/*
+    - server.js
+    - scripts/**/*
+    - appspec.yml
   base-directory: '.'
