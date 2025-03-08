@@ -28,7 +28,7 @@ artifacts:
     - views/**/*
     - server.js
     - appspec.yml
-    -gitignore
+    - gitignore
     - serviceAccountKey.json
     - scripts/**/*
   base-directory: '.'
