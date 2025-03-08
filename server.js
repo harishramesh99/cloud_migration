@@ -24,6 +24,14 @@ import doctorRoutes from './routes/doctorRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import prescriptionRoutes from './routes/prescriptionRoutes.js';
 
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const serviceAccount = JSON.parse(fs.readFileSync(path.join(__dirname, '../serviceAccountKey.json')));
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
