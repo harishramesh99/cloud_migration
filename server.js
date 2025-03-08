@@ -4,7 +4,7 @@ dotenv.config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressLayouts from 'express-ejs-layouts';
-import checkLoggedIn from './helpers/checkLoggedin.js';
+import checkLoggedIn from './helpers/checkLoggedIn.js';
 import { firebaseConfig } from './config/db.js';
 import cookieParser from 'cookie-parser';
 import AWS from 'aws-sdk';
