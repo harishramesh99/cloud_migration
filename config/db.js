@@ -13,14 +13,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read and parse the JSON file
+
+console.log("🔥 Checking Firebase Key:", process.env.FIREBASE_SERVICE_ACCOUNT_KEY ? "Loaded ✅" : "Missing ❌");
+
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+    throw new Error("❌ FIREBASE_SERVICE_ACCOUNT_KEY is missing. Check your .env file!");
+}
+
+// ✅ Decode Base64 Key
 const serviceAccount = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../serviceAccountKey.json'))
+  Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_KEY, 'base64').toString('utf-8')
 );
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  databaseURL: process.env.FIREBASE_DATABASE_URL
 });
+
 
 const db = admin.firestore();
 

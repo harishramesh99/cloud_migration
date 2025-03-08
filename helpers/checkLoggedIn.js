@@ -1,7 +1,7 @@
 /** @format */
 
 import { admin } from '../config/db.js';
-import User from '../models/User.js';
+import User from '../models/user.js';
 
 const checkLoggedIn = async (sessionCookie) => {
   let response = {
