@@ -4,3 +4,25 @@ files:
   - source: /
     destination: /var/www/html/cloud_migration
 file_exists_behavior: OVERWRITE
+permissions:
+  - object: /var/www/html/cloud_migration
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+  - object: /var/www/html/cloud_migration/serviceAccountKey.json
+    owner: ec2-user
+    group: ec2-user
+    mode: 600
+hooks:
+  BeforeInstall:
+    - location: scripts/before_install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: root

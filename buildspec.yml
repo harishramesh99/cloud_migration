@@ -27,6 +27,7 @@ artifacts:
     - routes/**/*
     - views/**/*
     - server.js
-    - serviceAccountKey.json
     - appspec.yml
+    - serviceAccountKey.json
+    - scripts/**/*
   base-directory: '.'
