@@ -3,3 +3,8 @@ os: linux
 files:
   - source: /
     destination: /var/www/html/cloud_migration
+hooks:
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: root
