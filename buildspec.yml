@@ -10,12 +10,16 @@ phases:
 
   build:
     commands:
-      - echo "No build step required for this application..."
+      - echo "Building the project..."
+      - echo $FIREBASE_CONFIG_BASE64 | base64 --decode > serviceAccount.json
+      - ls -lah  # Verify the file exists
+      - cat serviceAccount.json  # Debugging: remove this in production
 
   post_build:
     commands:
-      - echo "Preparing for deployment..."
-      - zip -r deploy-package.zip .  # Zips the entire project for deployment
+      - echo "Preparing deployment package..."
+      - zip -r deploy-package.zip .  # Zip project for deployment
+      - aws s3 cp deploy-package.zip s3://hpdoc/
 
 artifacts:
   files:
