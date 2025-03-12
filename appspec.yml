@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/nodejs-app
+    destination: /var/www/html/hpdoc
 file_exists_behavior: OVERWRITE
 
 hooks:
