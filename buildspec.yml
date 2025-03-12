@@ -17,8 +17,8 @@ phases:
 
   post_build:
     commands:
-      - echo "Preparing deployment package..."
-      - zip -r deploy-package.zip .  # Zip project for deployment
+      - echo "Packaging application..."
+      - zip -r deploy-package.zip .  # Zip everything
       - aws s3 cp deploy-package.zip s3://hpdoc/
 
 artifacts:
