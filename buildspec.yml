@@ -4,15 +4,19 @@ phases:
   install:
     runtime-versions:
       nodejs: 18
+    commands:
+      - echo "Installing dependencies..."
+      - npm install
   build:
     commands:
       - echo "Building application..."
-      - zip -r deploy-package.zip .  # Create deployment package 1
+      - npm run build
   post_build:
     commands:
-      - echo "Uploading to S3..."
-      - aws s3 cp deploy-package.zip s3://hpdoc/deploy-package.zip
+      - echo "Zipping artifact..."
+      - zip -r deploy-package.zip .  
+
 artifacts:
   files:
     - deploy-package.zip
-  discard-paths: yes
+  discard-paths: no
