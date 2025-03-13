@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log("🔥 Checking Firebase Key:", process.env.FIREBASE_SERVICE_ACCOUNT_KEY ? "Loaded ✅" : "Missing ❌");
+console.log(" Checking Firebase Key:", process.env.FIREBASE_SERVICE_ACCOUNT_KEY ? "Loaded ✅" : "Missing ❌");
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
     throw new Error("❌ FIREBASE_SERVICE_ACCOUNT_KEY is missing. Check your .env file!");
