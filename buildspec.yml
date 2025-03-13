@@ -20,3 +20,4 @@ artifacts:
   files:
     - deploy-package.zip
   discard-paths: no
+  name: deploy-package  # Force the artifact to have a static name
