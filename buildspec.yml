@@ -11,17 +11,30 @@ phases:
   build:
     commands:
       - echo "Building the project..."
-      - echo $FIREBASE_CONFIG_BASE64 | base64 --decode > serviceAccount.json
-      - ls -lah  # Verify the file exists
-      - cat serviceAccount.json  # Debugging: remove this in production
+      - echo $FIREBASE_CONFIG_BASE64 | base64 --decode > serviceAccountKey.json
+      - ls -lah
 
   post_build:
     commands:
-      - echo "Packaging application..."
-      - zip -r deploy-package.zip .  # Zip everything
+      - echo "Preparing for deployment..."
+      - cp -r scripts/ ./scripts/
+      - cp appspec.yml ./
+      # Still keep your S3 backup if desired
       - aws s3 cp deploy-package.zip s3://hpdoc/
 
 artifacts:
   files:
-    - deploy-package.zip
-  discard-paths: yes
+    - package.json
+    - package-lock.json
+    - .env
+    - config/**/*
+    - controllers/**/*
+    - helpers/**/*
+    - models/**/*
+    - public/**/*
+    - routes/**/*
+    - views/**/*
+    - server.js
+    - appspec.yml
+    - scripts/**/*
+  base-directory: '.'
