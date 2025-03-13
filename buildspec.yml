@@ -13,11 +13,13 @@ phases:
       - npm run build
   post_build:
     commands:
-      - echo "Zipping artifact..."
-      - zip -r deploy-package.zip .  
-
+      - echo "Decoding Firebase Key..."
+      - echo $FIREBASE_AUTH_KEY_BASE64 | base64 --decode > serviceAccountKey.json
+      - chmod 600 serviceAccountKey.json
+      - echo "Uploading to S3..."
+      - aws s3 cp deploy-package.zip s3://hpdoc/deploy-package.zip
 artifacts:
   files:
     - deploy-package.zip
   discard-paths: no
-  name: deploy-package  # Force the artifact to have a static name
+  name: deploy-package  # Static artifact name
