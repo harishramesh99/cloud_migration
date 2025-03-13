@@ -21,11 +21,22 @@ phases:
       # Copy to the exact same location that worked
       - aws s3 cp deploy-package.zip s3://hpdoc/deploy-package.zip
 
+
+
 artifacts:
   files:
+    - package.json
+    - package-lock.json
+    - .env
+    - config/**/*
+    - controllers/**/*
+    - helpers/**/*
+    - models/**/*
+    - public/**/*
+    - routes/**/*
+    - views/**/*
+    - server.js
     - appspec.yml
     - scripts/**/*
-    - serviceAccount.json
-    - '**/*'  # Include all files
   base-directory: '.'  # Use the root directory
   name: deploy-package.zip  # Use the same name
